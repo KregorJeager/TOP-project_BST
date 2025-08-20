@@ -37,6 +37,8 @@ class Tree
     else
       puts 'ERROR'
     end
+
+    root
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
