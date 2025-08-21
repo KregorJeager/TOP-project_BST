@@ -25,15 +25,19 @@ class Tree
     root
   end
 
-  def insert(root, key)
+  def insert(key)
+    @root = insert_recur(@root, key)
+  end
+
+  def insert_recur(root, key)
     return Node.new(key) if root.nil?
 
     return root if @root.data == key
 
     if root.data > key
-      root.left = insert(root.left, key)
+      root.left = insert_recur(root.left, key)
     elsif root.data < key
-      root.right = insert(root.right, key)
+      root.right = insert_recur(root.right, key)
     else
       puts 'ERROR'
     end
@@ -50,4 +54,17 @@ end
 
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 
+test.pretty_print
+
+test.insert(7)
+test.insert(3)
+test.pretty_print
+
+test.insert(0)
+test.pretty_print
+
+test.insert(10)
+test.pretty_print
+
+test.insert(-1)
 test.pretty_print
