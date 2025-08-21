@@ -45,6 +45,20 @@ class Tree
     root
   end
 
+  def delete(key)
+    delete_recur(@root, key)
+  end
+
+  def delete_recur(node, key)
+    delete_recur(node.left, key) if node.data > key
+    delete_recur(node.right, key) if node.data < key
+
+    return node.right if node.left.nil?
+    return node.left if node.right.nil?
+
+    node # just so we can save file without auto correct from cop
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
