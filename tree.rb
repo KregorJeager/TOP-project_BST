@@ -54,19 +54,23 @@ class Tree
 
     if node.data > key
       node.left = delete_recur(node.left, key)
-    else if node.data < key
+    elsif node.data < key
       node.right = delete_recur(node.right, key)
     else
       return node.right if node.left.nil?
       return node.left if node.right.nil?
 
+      succ = get_succ(node)
+      node.data = succ.data
+      node.right = delete_recur(node.right, succ.data)
     end
+    node
   end
 
   def get_succ(node)
     node = node.right
     node = node.left while !node.nil? && !node.left.nil?
-    node.data
+    node
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -79,5 +83,5 @@ end
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 p test
 test.pretty_print
-test.delete(4)
+test.delete(6)
 test.pretty_print
