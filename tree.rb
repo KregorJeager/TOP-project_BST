@@ -73,6 +73,13 @@ class Tree
     node
   end
 
+  def find_recur(node, key)
+    return node if node.data == key
+    return find_recur(node.left, key) if key < node.data
+
+    find_recur(node.right, key) if key > node.data
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -83,5 +90,4 @@ end
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 p test
 test.pretty_print
-test.delete(6)
-test.pretty_print
+p test.find_recur(test.root, 4)
