@@ -46,17 +46,27 @@ class Tree
   end
 
   def delete(key)
-    delete_recur(@root, key)
+    @root = delete_recur(@root, key)
   end
 
   def delete_recur(node, key)
-    delete_recur(node.left, key) if node.data > key
-    delete_recur(node.right, key) if node.data < key
+    return node if node.nil?
 
-    return node.right if node.left.nil?
-    return node.left if node.right.nil?
+    if node.data > key
+      node.left = delete_recur(node.left, key)
+    else if node.data < key
+      node.right = delete_recur(node.right, key)
+    else
+      return node.right if node.left.nil?
+      return node.left if node.right.nil?
 
-    node # just so we can save file without auto correct from cop
+    end
+  end
+
+  def get_succ(node)
+    node = node.right
+    node = node.left while !node.nil? && !node.left.nil?
+    node.data
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -67,18 +77,7 @@ class Tree
 end
 
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
-
+p test
 test.pretty_print
-
-test.insert(7)
-test.insert(3)
-test.pretty_print
-
-test.insert(0)
-test.pretty_print
-
-test.insert(10)
-test.pretty_print
-
-test.insert(-1)
+test.delete(4)
 test.pretty_print
