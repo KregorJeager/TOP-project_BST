@@ -80,6 +80,22 @@ class Tree
     find_recur(node.right, key) if key > node.data
   end
 
+  def level_order(&block)
+    q = [] << @root
+    arr = []
+    puts "q.empty? #{q.empty?}"
+    until q.empty?
+      # puts 'in q'
+      q.insert(0, q[q.length - 1].left) unless q[q.length - 1].left.nil?
+      q.insert(0, q[q.length - 1].right) unless q[q.length - 1].right.nil?
+      arr << q.pop
+      # puts "in 91 #{arr}"
+    end
+    return arr unless block_given?
+
+    arr.each(&block)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -90,4 +106,4 @@ end
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 p test
 test.pretty_print
-p test.find_recur(test.root, 4)
+p(test.level_order { |node| p node.data + 1 })
