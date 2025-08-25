@@ -96,6 +96,23 @@ class Tree
     arr.each(&block)
   end
 
+  def preorder
+    nodes = preorder_recur(@root, [])
+    arr = []
+    if block_given?
+      nodes.each { |node| arr << yield(node) }
+      return arr
+    end
+    nodes
+  end
+
+  def preorder_recur(node, arr)
+    arr << node
+    arr = preorder_recur(node.left, arr) unless node.left.nil?
+    arr = preorder_recur(node.right, arr) unless node.right.nil?
+    arr
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -104,6 +121,7 @@ class Tree
 end
 
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
-p test
+
 test.pretty_print
-p(test.level_order { |node| p node.data + 1 })
+var = test.preorder { |node| node.data }
+p var
