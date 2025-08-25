@@ -124,6 +124,13 @@ class Tree
     nodes
   end
 
+  def inorder_recur(node, arr)
+    arr = preorder_recur(node.left, arr) unless node.left.nil?
+    arr << node
+    arr = preorder_recur(node.right, arr) unless node.right.nil?
+    arr
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -134,5 +141,5 @@ end
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 
 test.pretty_print
-var = test.preorder { |node| node.data }
+var = test.inorder { |node| node.data }
 p var
