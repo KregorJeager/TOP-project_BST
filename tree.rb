@@ -125,10 +125,27 @@ class Tree
   end
 
   def inorder_recur(node, arr)
-    arr = preorder_recur(node.left, arr) unless node.left.nil?
+    arr = inorder_recur(node.left, arr) unless node.left.nil?
     arr << node
-    arr = preorder_recur(node.right, arr) unless node.right.nil?
+    arr = inorder_recur(node.right, arr) unless node.right.nil?
     arr
+  end
+
+  def postorder
+    # Returns an array of nodes that are arrange inorder
+    nodes = postorder_recur(@root, [])
+    arr = []
+    if block_given?
+      nodes.each { |node| arr << yield(node) }
+      return arr
+    end
+    nodes
+  end
+
+  def postorder_recur(node, arr)
+    arr = postorder_recur(node.left, arr) unless node.left.nil?
+    arr = postorder_recur(node.right, arr) unless node.right.nil?
+    arr << node
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -141,5 +158,5 @@ end
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 
 test.pretty_print
-var = test.inorder { |node| node.data }
+var = test.postorder { |node| node.data }
 p var
