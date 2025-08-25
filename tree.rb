@@ -114,6 +114,7 @@ class Tree
   end
 
   def inorder
+    # Returns an array of nodes that are arrange inorder
     nodes = inorder_recur(@root, [])
     arr = []
     if block_given?
