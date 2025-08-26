@@ -161,8 +161,13 @@ class Tree
     1 + depth(key, node.right) if key > node.data
   end
 
+  def height(key)
+    node = find(key)
+    height_recur(node)
+  end
+
   def height_recur(node = @root)
-    return 0 if node.nil?
+    return -1 if node.nil?
 
     left = height_recur(node.left)
     right = height_recur(node.right)
@@ -193,4 +198,4 @@ test.insert(16)
 test.insert(17)
 test.insert(18)
 test.pretty_print
-p test.find(15)
+p test.height(7)
