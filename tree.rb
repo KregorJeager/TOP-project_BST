@@ -80,7 +80,7 @@ class Tree
     find_recur(node.right, key) if key > node.data
   end
 
-  def level_order(&block)
+  def level_order
     q = [] << @root
     arr = []
     puts "q.empty? #{q.empty?}"
@@ -88,12 +88,12 @@ class Tree
       # puts 'in q'
       q.insert(0, q[q.length - 1].left) unless q[q.length - 1].left.nil?
       q.insert(0, q[q.length - 1].right) unless q[q.length - 1].right.nil?
-      arr << q.pop
+      arr << yield(q.pop)
       # puts "in 91 #{arr}"
     end
     return arr unless block_given?
 
-    arr.each(&block)
+    arr
   end
 
   def preorder
@@ -157,6 +157,20 @@ class Tree
     1 + depth(key, node.right) if key > node.data
   end
 
+  def height(node = @root)
+    return 0 if node.nil?
+
+    left = height(node.left)
+    right = height(node.right)
+    if left > right
+      1 + left
+    elsif right > left
+      1 + right
+    else
+      1 + left
+    end
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -164,8 +178,15 @@ class Tree
   end
 end
 
-test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
+test = Tree.new([0, 3, 1, 2, 3, 4, 5, 6, 2, 3, 7, 8, 9, 10, 11, 12, 13, 14])
 
 test.pretty_print
-var = test.height(6)
+var = test.height
 p var
+
+test.insert(15)
+test.insert(16)
+test.insert(17)
+test.insert(18)
+test.pretty_print
+p test.height
