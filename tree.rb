@@ -148,6 +148,15 @@ class Tree
     arr << node
   end
 
+  def depth(key, node = @root)
+    return 'not in tree' if node.data.nil?
+    return 0 if key == node.data
+
+    return 1 + depth(key, node.left) if key < node.data
+
+    1 + depth(key, node.right) if key > node.data
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -158,5 +167,5 @@ end
 test = Tree.new([3, 1, 2, 3, 4, 5, 6, 2, 3])
 
 test.pretty_print
-var = test.postorder { |node| node.data }
+var = test.height(6)
 p var
