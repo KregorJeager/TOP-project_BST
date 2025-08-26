@@ -73,6 +73,10 @@ class Tree
     node
   end
 
+  def find(key)
+    find_recur(@root, key)
+  end
+
   def find_recur(node, key)
     return node if node.data == key
     return find_recur(node.left, key) if key < node.data
@@ -189,4 +193,4 @@ test.insert(16)
 test.insert(17)
 test.insert(18)
 test.pretty_print
-p test.height_recur
+p test.find(15)
