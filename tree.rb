@@ -157,11 +157,11 @@ class Tree
     1 + depth(key, node.right) if key > node.data
   end
 
-  def height(node = @root)
+  def height_recur(node = @root)
     return 0 if node.nil?
 
-    left = height(node.left)
-    right = height(node.right)
+    left = height_recur(node.left)
+    right = height_recur(node.right)
     if left > right
       1 + left
     elsif right > left
@@ -181,7 +181,7 @@ end
 test = Tree.new([0, 3, 1, 2, 3, 4, 5, 6, 2, 3, 7, 8, 9, 10, 11, 12, 13, 14])
 
 test.pretty_print
-var = test.height
+var = test.height_recur
 p var
 
 test.insert(15)
@@ -189,4 +189,4 @@ test.insert(16)
 test.insert(17)
 test.insert(18)
 test.pretty_print
-p test.height
+p test.height_recur
