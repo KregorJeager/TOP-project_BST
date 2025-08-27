@@ -162,6 +162,8 @@ class Tree
   end
 
   def height(key)
+    return 0 if key.nil?
+
     if key.instance_of?(Node)
       height_recur(key)
     else
