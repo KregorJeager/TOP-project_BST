@@ -193,9 +193,18 @@ class Tree
 
     return false if right_h - left_h > 1
 
-    return false unless bal_recur(node.left) && bal_recur(node.right)
+    return false unless balanced?(node.left) && balanced?(node.right)
 
     true
+  end
+
+  def rebalance
+    return p 'Balnced' if balanced?
+
+    # Short for Tree array
+    trar = inorder { |node| node.data }
+    @root = build_tree(trar)
+    pretty_print
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -211,7 +220,6 @@ test.pretty_print
 var = test.height_recur
 p var
 test.insert(15)
-test.insert(16)
 test.pretty_print
 
-p test.bal_recur
+test.rebalance
