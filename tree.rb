@@ -185,7 +185,7 @@ class Tree
     end
   end
 
-  def bal_recur(node)
+  def balanced?(node = @root)
     return true if node.nil?
 
     right_h = height(node.right)
@@ -210,8 +210,8 @@ test = Tree.new([0, 3, 1, 2, 3, 4, 5, 6, 2, 3, 7, 8, 9, 10, 11, 12, 13, 14])
 test.pretty_print
 var = test.height_recur
 p var
-
+test.insert(15)
+test.insert(16)
 test.pretty_print
-p test.height(7)
 
-p test.bal_recur(test.root)
+p test.bal_recur
