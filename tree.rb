@@ -220,4 +220,15 @@ end
 
 test = Tree.new(Array.new(15) { rand(1..100) })
 puts "Balanced? #{test.balanced?}"
-puts test.level_order
+test.pretty_print
+p(test.level_order { |node| node.data })
+p(test.preorder { |node| node.data })
+p(test.inorder { |node| node.data })
+p(test.postorder { |node| node.data })
+test.insert(101)
+test.insert(101)
+test.insert(104)
+test.pretty_print
+puts "Balanced? #{test.balanced?}"
+test.rebalance
+puts "Balanced? #{test.balanced?}"
