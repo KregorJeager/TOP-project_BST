@@ -162,8 +162,11 @@ class Tree
   end
 
   def height(key)
-    node = find(key)
-    height_recur(node)
+    if key.instance_of?(Node)
+      height_recur(key)
+    else
+      height_recur(find(key))
+    end
   end
 
   def height_recur(node = @root)
@@ -180,6 +183,19 @@ class Tree
     end
   end
 
+  def bal_recur(node)
+    return true if node.nil?
+
+    right_h = height(node.right)
+    left_h = height(node.left)
+
+    return false if right_h - left_h > 1
+
+    return false unless bal_recur(node.left) && bal_recur(node.right)
+
+    true
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -193,9 +209,7 @@ test.pretty_print
 var = test.height_recur
 p var
 
-test.insert(15)
-test.insert(16)
-test.insert(17)
-test.insert(18)
 test.pretty_print
 p test.height(7)
+
+p test.bal_recur(test.root)
