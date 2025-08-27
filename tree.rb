@@ -87,12 +87,16 @@ class Tree
   def level_order
     q = [] << @root
     arr = []
-    puts "q.empty? #{q.empty?}"
+    # puts "q.empty? #{q.empty?}"
     until q.empty?
       # puts 'in q'
       q.insert(0, q[q.length - 1].left) unless q[q.length - 1].left.nil?
       q.insert(0, q[q.length - 1].right) unless q[q.length - 1].right.nil?
-      arr << yield(q.pop)
+      arr << if block_given?
+               yield(q.pop)
+             else
+               q.pop
+             end
       # puts "in 91 #{arr}"
     end
     return arr unless block_given?
@@ -214,12 +218,6 @@ class Tree
   end
 end
 
-test = Tree.new([0, 3, 1, 2, 3, 4, 5, 6, 2, 3, 7, 8, 9, 10, 11, 12, 13, 14])
-
-test.pretty_print
-var = test.height_recur
-p var
-test.insert(15)
-test.pretty_print
-
-test.rebalance
+test = Tree.new(Array.new(15) { rand(1..100) })
+puts "Balanced? #{test.balanced?}"
+puts test.level_order
